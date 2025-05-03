@@ -35,6 +35,9 @@ public class LlamaTokenizer {
             File targetDir = getFirstWritableLdLibraryPathDir();
             loadNativeLibrary("libllama.so", targetDir);
             loadNativeLibrary("libllamatokenizer.so", targetDir);
+            loadNativeLibrary("libggml.so", targetDir);
+            loadNativeLibrary("libggml-cpu.so", targetDir);
+            loadNativeLibrary("libggml-base.so", targetDir);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load native libraries", e);
         }

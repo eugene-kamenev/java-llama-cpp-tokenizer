@@ -50,6 +50,9 @@ copy-so: $(WRAPPER_BUILD_DIR)/$(WRAPPER_LIB)
 	mkdir -p $(RESOURCES_DIR)
 	cp $(WRAPPER_BUILD_DIR)/$(WRAPPER_LIB) $(RESOURCES_DIR)/
 	cp $(LLAMA_BUILD_DIR)/bin/libllama.so $(RESOURCES_DIR)/
+	cp $(LLAMA_BUILD_DIR)/bin/libggml.so $(RESOURCES_DIR)/
+	cp $(LLAMA_BUILD_DIR)/bin/libggml-cpu.so $(RESOURCES_DIR)/
+	cp $(LLAMA_BUILD_DIR)/bin/libggml-base.so $(RESOURCES_DIR)/
 
 # Step 5: Build Java library with Gradle
 gradle-build:

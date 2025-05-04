@@ -8,8 +8,11 @@ import java.nio.file.StandardCopyOption;
 
 public class LlamaTokenizer {
     static void loadNativeLibrary(String libName, File tempDir) throws IOException {
-        InputStream in = LlamaTokenizer.class.getResourceAsStream("/" + libName);
-        if (in == null) throw new IOException("Library not found: " + libName);
+        InputStream in = LlamaTokenizer.class.getClassLoader().getResourceAsStream(libName);
+        if (in == null) {
+            throw new IOException("Library not found in resources:" + libName);
+        }
+    
         File temp = new File(tempDir, libName);
         Files.copy(in, temp.toPath(), StandardCopyOption.REPLACE_EXISTING);
         temp.deleteOnExit();
@@ -33,11 +36,11 @@ public class LlamaTokenizer {
     static {
         try {
             File targetDir = getFirstWritableLdLibraryPathDir();
+            loadNativeLibrary("libggml-base.so", targetDir);
+            loadNativeLibrary("libggml-cpu.so", targetDir);
+            loadNativeLibrary("libggml.so", targetDir);
             loadNativeLibrary("libllama.so", targetDir);
             loadNativeLibrary("libllamatokenizer.so", targetDir);
-            loadNativeLibrary("libggml.so", targetDir);
-            loadNativeLibrary("libggml-cpu.so", targetDir);
-            loadNativeLibrary("libggml-base.so", targetDir);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load native libraries", e);
         }
